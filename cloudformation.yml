@@ -1,7 +1,22 @@
 AWSTemplateFormatVersion: 2010-09-09
-
 Resources:
-  S3Bucket:
+  Bucket:
     Type: AWS::S3::Bucket
     Properties:
-      BucketName: STD21065
+      BucketName: 'std21065'
+  SSMPHUK3:
+    Type: 'AWS::SSM::Parameter'
+    Properties:
+      Type: String
+      Name: s3_bucket_name
+      Value: !Ref Bucket
+    DependsOn:
+      - Bucket
+  SSMP1TGWF:
+    Type: 'AWS::SSM::Parameter'
+    Properties:
+      Type: String
+      Name: s3_bucket_arn
+      Value: !GetAtt Bucket.Arn
+    DependsOn:
+      - Bucket
